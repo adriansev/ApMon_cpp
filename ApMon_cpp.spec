@@ -31,6 +31,7 @@ ApMon is a set of flexible APIs that can be used by any application to send moni
 
 %prep
 %setup -q
+./BOOTSTRAP
 
 %build
 ./configure --prefix=%{__prefix} --libdir=%{__libdir} --includedir=%{__incdir}
