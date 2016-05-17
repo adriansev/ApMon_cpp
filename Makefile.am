@@ -3,6 +3,7 @@ doc: Doxyfile all
 	doxygen
 endif
 
+ACLOCAL_AMFLAGS = -I m4
 
 AM_CXXFLAGS =
 AM_CPPFLAGS = -I./src

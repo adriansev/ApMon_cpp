@@ -1,6 +1,8 @@
 AC_INIT([ApMon_cpp], [2.2.8])
 AC_PREREQ(2.53)
 
+AC_CONFIG_MACRO_DIR([m4])
+
 AC_CONFIG_SRCDIR([src/ApMon.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 
@@ -34,7 +36,7 @@ AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_STRUCT_TM
 
-
 AC_CONFIG_FILES([Makefile
 		examples/Makefile])
 AC_OUTPUT
+
