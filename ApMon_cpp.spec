@@ -6,10 +6,9 @@
 %global use_systemd 0
 %endif
 
-Summary:	MonALISA Application Monitoring API 
+Summary:	MonALISA Application Monitoring API
 Name:		ApMon_cpp
 Version:	2.2.8
-Epoch:		1
 Release:	4%{?dist}
 License:	none
 Group:		System Environment/Daemons
