@@ -974,19 +974,20 @@ sub computeCummulativeParams {
 		}
 	}
 
-	# interrupts, context switches, swap & blocks - related params
-	my $interval = $dataRef->{TIME} - $prevDataRef->{TIME};
-	for my $param ('blocks_in', 'blocks_out', 'swap_in', 'swap_out', 'interrupts', 'context_switches') {
+	if (defined($prevDataRef->{TIME})){
+	    # interrupts, context switches, swap & blocks - related params
+	    my $interval = $dataRef->{TIME} - $prevDataRef->{TIME};
+	    for my $param ('blocks_in', 'blocks_out', 'swap_in', 'swap_out', 'interrupts', 'context_switches') {
 		if(defined($dataRef->{"raw_$param"}) && defined($prevDataRef->{"raw_$param"}) && ($interval != 0)){
 			my $diff = $this->diffWithOverflowCheck($dataRef->{"raw_$param"}, $prevDataRef->{"raw_$param"});
 			$dataRef->{$param."_R"} = $diff / $interval;
 		}else{
 			delete $dataRef->{$param."_R"};
 		}
-	}
+	    }
 
-	# physical network interfaces - related params
-	for my $rawParam (keys %$dataRef){
+	    # physical network interfaces - related params
+	    for my $rawParam (keys %$dataRef){
 		next if $rawParam !~ /^raw_net_/;
 		next if ! defined($prevDataRef->{$rawParam});
 		my $param = $1 if($rawParam =~ /raw_net_(.*)/);
@@ -997,6 +998,7 @@ sub computeCummulativeParams {
 		}else{
 			delete $dataRef->{$param};
 		}
+	    }
 	}
 
 	# copy contents of the current data values to the 
