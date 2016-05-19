@@ -9,7 +9,7 @@
 Summary:	MonALISA Application Monitoring API
 Name:		ApMon_cpp
 Version:	2.2.8
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	none
 Group:		System Environment/Daemons
 
