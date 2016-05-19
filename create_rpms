@@ -1,0 +1,38 @@
+#!/bin/bash
+
+CDIR=`pwd`
+
+[[ -z "$1" ]] && echo "The version argument is needed" && exit 1
+
+VER=$1
+
+./create_targz ${VER}
+
+## Build EL6 RPMS
+el6build_status=`VBoxManage list runningvms | grep "EL6 - BUILD"`
+[[ -z "$el6build_status" ]] && ~/el6build_startvm && sleep 15
+
+scp -p "ApMon_cpp-"${VER}.tar.gz el6build:/root/rpmbuild/SOURCES/
+scp -p ApMon_cpp.spec el6build:/root/rpmbuild/SPECS/
+
+ssh el6build "cd /root/rpmbuild/SRPMS && rpmbuild -ba ../SPECS/ApMon_cpp.spec &> ApMon_cpp_BUILD_`date +%Y%m%d_%H%M%S`.txt"
+
+cd ~/rpmbuild && ./sync_builds2local_el6
+
+ssh el6build "poweroff"
+
+
+## Build EL7 RPMS
+cd ${CDIR}
+el7build_status=`VBoxManage list runningvms | grep "EL7 - BUILD"`
+[[ -z "$el7build_status" ]] && ~/el7build_startvm && sleep 15
+
+scp -p "ApMon_cpp-"${VER}.tar.gz el7build:/home/rpmbuild/rpmbuild/SOURCES/
+scp -p ApMon_cpp.spec el7build:/home/rpmbuild/rpmbuild/SPECS/
+
+ssh el7build "cd /home/rpmbuild/rpmbuild/SRPMS && rpmbuild -ba ../SPECS/ApMon_cpp.spec &> ApMon_cpp_BUILD_`date +%Y%m%d_%H%M%S`.txt"
+
+cd ~/rpmbuild && ./sync_builds2local_el7
+
+ssh el7build_root "poweroff"
+
