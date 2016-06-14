@@ -180,7 +180,7 @@ else
 export PERL5LIB=/usr/share/perl5/:/usr/share/perl5/ApMon:${PERL5LIB}
 
 ## even if root, the logdir will be taken from the xrootd server cmd line
-xrootd_server_line=`ps -eo pid,args= | grep 'xrootd.*server\|xrootd.*manager' | grep -v grep`
+xrootd_server_line=`ps -eo pid,args= | grep 'bin/xrootd.*server\|bin/xrootd.*manager' | grep -v grep | head -1`
 
 ## if no xrootd server is running but servMon.sh is somehow used
 if [ -z "$xrootd_server_line" ] ; then
