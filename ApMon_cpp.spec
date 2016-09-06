@@ -14,6 +14,8 @@ Release:	5%{?dist}
 License:	none
 Group:		System Environment/Daemons
 
+Requires: perl
+
 Source0: 	%{name}-%{version}.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
