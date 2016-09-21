@@ -147,7 +147,7 @@ if(\$pid == 0)
 		print MYFILE \$\$;
 		close (MYFILE);
 		\$apm->sendBgMonitoring();
-		print '$xrdver';
+    print '$xrdver' . \"\n\";
 		\$apm->sendParameters('$nodename4space', '$host', 'xrootd_version', '$xrdver');
 		\$apm->sendParameters('$nodename4space', '$host', 'space_total', '$totsp');
 		\$apm->sendParameters('$nodename4space', '$host', 'space_free', '$freesp');
