@@ -9,7 +9,7 @@ DIR="ApMon_cpp-"${VER}
 rm -rf ${DIR}.tar.gz ${DIR}
 
 mkdir ${DIR}
-cp -r ApMon_cpp.spec AUTHORS BOOTSTRAP ChangeLog configure.ac COPYING INSTALL Makefile.am NEWS README perl src bin examples ${DIR}/
+cp -r AUTHORS BOOTSTRAP ChangeLog configure.ac COPYING INSTALL Makefile.am NEWS README perl src bin examples ${DIR}/
 
 tar czf ${DIR}.tar.gz ${DIR}
 
