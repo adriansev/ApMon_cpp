@@ -174,24 +174,24 @@ else {
 export PERL5LIB=/usr/share/perl5/:/usr/share/perl5/ApMon:${PERL5LIB}
 
 ## even if root, the logdir will be taken from the xrootd server cmd line
-xrootd_server_line=$(ps -eo pid,args= | grep 'bin/xrootd.*server\|bin/xrootd.*manager' | grep -v grep | head -1)
+xrootd_server_line=$(ps -eo pid,args= | awk '/xrootd.*(server|manager)/ && !/(awk|perl)/{print;}')
 
 ## if no xrootd server is running but servMon.sh is somehow used
-if [ -z "$xrootd_server_line" ] ; then
+if [[ -z "${xrootd_server_line}" ]] ; then
   logfile="/tmp/servMon.log"
 else
-  xrootd_server_log=$(awk '{for ( x = 1; x <= NF; x++ ) { if ($x == "-l") {print $(x+1)} }}' <<< "$xrootd_server_line")
-  logdir=$(dirname $xrootd_server_log)
+  xrootd_server_log=$(awk '{for ( x = 1; x <= NF; x++ ) { if ($x == "-l") {print $(x+1)} }}' <<< "${xrootd_server_line}")
+  logdir=$(dirname ${xrootd_server_log})
   logfile="${logdir}/servMon.log"
 fi
 
-if [ -n "$pidfile" ] ; then
+if [[ -n "${pidfile}" ]] ; then
   # pid file given; run in background
-  echo -e "`date` Starting ApMon in background mode...\nlogfile in: $logfile\npidfile in: $pidfile" | tee $logfile
-  perl -e "${exe}" </dev/null >> $logfile 2>&1 &
+  echo -e "$(date) Starting ApMon in background mode...\nlogfile in: ${logfile}\npidfile in: ${pidfile}" | tee $logfile
+  perl -e "${exe}" </dev/null >> ${logfile} 2>&1 &
 else
   # pid file not given; run in interactive mode
-  echo -e "`date` Starting ApMon in interactive mode..."
+  echo -e "$(date) Starting ApMon in interactive mode..."
   exec perl -e "${exe}"
 fi
 
