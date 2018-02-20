@@ -174,13 +174,13 @@ else {
 export PERL5LIB=/usr/share/perl5/:/usr/share/perl5/ApMon:${PERL5LIB}
 
 ## even if root, the logdir will be taken from the xrootd server cmd line
-xrootd_server_line=$(ps -eo pid,args= | awk '/xrootd.*(server|manager)/ && !/(awk|perl)/{print;}')
+xrootd_server_line=$(/bin/ps -eo pid,args= | /bin/awk '$2 ~ /xrootd/')
 
 ## if no xrootd server is running but servMon.sh is somehow used
 if [[ -z "${xrootd_server_line}" ]] ; then
   logfile="/tmp/servMon.log"
 else
-  xrootd_server_log=$(awk '{for ( x = 1; x <= NF; x++ ) { if ($x == "-l") {print $(x+1)} }}' <<< "${xrootd_server_line}")
+  xrootd_server_log=$(/bin/awk '{for ( x = 1; x <= NF; x++ ) { if ($x == "-l") {print $(x+1)} }}' <<< "${xrootd_server_line}")
   logdir=$(dirname ${xrootd_server_log})
   logfile="${logdir}/servMon.log"
 fi
